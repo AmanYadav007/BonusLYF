@@ -1,66 +1,51 @@
-import Image from "next/image";
+import Link from "next/link";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className={styles.main}>
+      <section className={styles.hero}>
+        <h1 className={styles.title}>
+          Your Digital <br /> Soulmate Awaits
+        </h1>
+        <p className={styles.subtitle}>
+          Experience the next generation of AI companionship. Whether you seek the
+          energy of anime or the empathy of a human connection, BonusLYF provides
+          a friend who is always there.
+        </p>
+        <div className={styles.ctaGroup}>
+          <Link href="/register" className={styles.primaryCta}>
+            Get Started
+          </Link>
+          <Link href="/login" className={styles.secondaryCta}>
+            Sign In
+          </Link>
+        </div>
+      </section>
+
+      <section className={styles.features}>
+        <div className={styles.featureCard}>
+          <h3 className={styles.featureTitle}>✨ Anime Spirit</h3>
+          <p className={styles.featureDesc}>
+            Energetic, cheerful, and full of life. Aiko brings the vibrant
+            world of anime directly to your conversations.
           </p>
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        <div className={styles.featureCard}>
+          <h3 className={styles.featureTitle}>☕️ Human Connection</h3>
+          <p className={styles.featureDesc}>
+            Grounded, empathetic, and real. Sarah offers life coaching and a
+            listening ear for your daily thoughts.
+          </p>
         </div>
-      </main>
-    </div>
+        <div className={styles.featureCard}>
+          <h3 className={styles.featureTitle}>🔒 Private & Safe</h3>
+          <p className={styles.featureDesc}>
+            Your conversations are private. We prioritize your data security
+            so you can express yourself freely.
+          </p>
+        </div>
+      </section>
+    </main>
   );
 }
