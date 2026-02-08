@@ -1,0 +1,18 @@
+.orb-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+    /* Allow clicks to pass through if needed, though the code has mouse listeners */
+}
+
+/* Override pointer events to auto on the canvas if interactive */
+.orb-container canvas {
+    pointer-events: auto;
+    width: 100%;
+    height: 100%;
+    display: block;
+}
