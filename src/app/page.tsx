@@ -216,7 +216,7 @@ export default function Home() {
             </section>
 
             {/* 4️⃣ CHOOSE YOUR COMPANION */}
-            <section className="w-full py-24 md:py-32">
+            <section className="w-full py-24 md:py-32" id="companions">
                 <div className="container px-6 mx-auto">
                     <div className="text-center mb-16 max-w-2xl mx-auto">
                         <h2 className="text-3xl md:text-4xl font-display font-medium mb-6">Choose a Companion That Feels Right</h2>
@@ -282,7 +282,7 @@ export default function Home() {
             </section>
 
             {/* 5️⃣ HOW IT WORKS */}
-            <section className="w-full py-24 bg-muted/20">
+            <section className="w-full py-24 bg-muted/20" id="how-it-works">
                 <div className="container px-6 mx-auto">
                     <div className="text-center mb-20">
                         <h2 className="text-3xl md:text-4xl font-display font-medium mb-4">How BonusLYF Works</h2>

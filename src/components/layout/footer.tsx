@@ -23,17 +23,17 @@ export function Footer() {
                         <h3 className="font-medium text-foreground mb-4">Product</h3>
                         <ul className="space-y-3">
                             <li>
-                                <Link href="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                                <Link href="/#how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                                     How it works
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/companions" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                                <Link href="/#companions" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                                     Companions
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                                <Link href="/#pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                                     Pricing
                                 </Link>
                             </li>
