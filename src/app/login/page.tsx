@@ -60,9 +60,17 @@ export default function LoginPage() {
                     </div>
 
                     <div className={styles.inputGroup}>
-                        <label htmlFor="password" className={styles.label}>
-                            Password
-                        </label>
+                        <div className="flex justify-between items-center">
+                            <label htmlFor="password" className={styles.label}>
+                                Password
+                            </label>
+                            <Link
+                                href="/forgot-password"
+                                className="text-sm text-cyan-400 hover:text-cyan-300 transition-colors"
+                            >
+                                Forgot?
+                            </Link>
+                        </div>
                         <input
                             type="password"
                             id="password"
