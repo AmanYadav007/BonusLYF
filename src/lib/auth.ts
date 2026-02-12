@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
-import { createServerSideClient } from './supabase'
+import { createServerSideClient } from './supabase-server'
 
 export async function login(prevState: any, formData: FormData) {
     const supabase = await createServerSideClient()

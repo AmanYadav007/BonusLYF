@@ -46,7 +46,7 @@ export function Header() {
                             About
                         </Link>
                         <Link
-                            href="/pricing"
+                            href="/#pricing"
                             className="text-sm font-medium text-muted-foreground/80 hover:text-foreground transition-colors"
                         >
                             Pricing
@@ -99,7 +99,7 @@ export function Header() {
                                     </div>
                                     <nav className="flex flex-col gap-6">
                                         <Link href="/about" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">About</Link>
-                                        <Link href="/pricing" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Pricing</Link>
+                                        <Link href="/#pricing" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Pricing</Link>
                                         <Link href="/company" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Company</Link>
                                         <Link href="/contact" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Contact</Link>
                                         <div className="h-px bg-border/50 my-4" />

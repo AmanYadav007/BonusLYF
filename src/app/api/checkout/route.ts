@@ -16,7 +16,7 @@ const PLANS: Record<string, any> = {
         description: 'Lifetime access to BonusLYF',
         price: 30000,
         currency: 'USD',
-        billingType: 'one_time',
+        billingType: 'onetime',
         imageUrl: 'https://bonuslyf.com/images/lifetime.png'
     }
 };
