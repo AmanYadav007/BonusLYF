@@ -6,97 +6,92 @@
 }
 
 :root {
-  /* Brand Constants mapped to semantic variables */
-  --midnight: 230 40% 7%;
+  /* Brand Constants (HSL Values for Alpha Compositions) */
+  --midnight-hsl: 230 40% 7%;
   /* #0B0E1A */
-  --violet: 282 39% 30%;
-  /* #3A1C71 */
-  --cyan: 174 58% 56%;
-  /* #4FD1C5 */
-  --lavender: 255 91% 76%;
-  /* #A78BFA */
-  --softwhite: 216 33% 97%;
-  /* #F5F7FA */
-  --mutedgray: 220 5% 63%;
-  /* #9CA3AF */
-
-  /* Light Theme (Soft, Warm, Human) */
-  --background: 216 33% 97%;
+  --violet-hsl: 260 60% 60%;
+  /* Neon/Bright Violet */
+  --cyan-hsl: 180 80% 60%;
+  /* Neon/Bright Cyan */
+  --blue-hsl: 220 90% 60%;
+  /* Soft Neon Blue */
+  --white-hsl: 216 33% 97%;
   /* Soft White */
-  --foreground: 230 40% 7%;
-  /* Midnight Indigo text */
+  --gray-hsl: 220 10% 65%;
+  /* Muted Gray */
 
-  --card: 0 0% 100%;
-  --card-foreground: 230 40% 7%;
+  /* Light Theme (Fallbacks - though we force dark) */
+  --background: 230 40% 7%;
+  --foreground: 216 33% 97%;
 
-  --popover: 0 0% 100%;
-  --popover-foreground: 230 40% 7%;
+  --card: 230 40% 9%;
+  --card-foreground: 216 33% 97%;
 
-  --primary: 282 39% 30%;
-  /* Deep Violet */
+  --popover: 230 40% 9%;
+  --popover-foreground: 216 33% 97%;
+
+  --primary: 260 60% 60%;
   --primary-foreground: 216 33% 97%;
 
-  --secondary: 255 91% 76%;
-  /* Soft Lavender */
-  --secondary-foreground: 230 40% 7%;
+  --secondary: 220 90% 60%;
+  --secondary-foreground: 216 33% 97%;
 
-  --muted: 220 5% 90%;
-  --muted-foreground: 220 5% 30%;
+  --muted: 230 30% 15%;
+  --muted-foreground: 220 10% 65%;
 
-  --accent: 174 58% 56%;
-  /* Aurora Cyan */
+  --accent: 180 80% 60%;
   --accent-foreground: 230 40% 7%;
 
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 220 13% 91%;
-  --input: 220 13% 91%;
-  --ring: 282 39% 30%;
+  --border: 230 30% 15%;
+  --input: 230 30% 15%;
+  --ring: 260 60% 60%;
 
-  --radius: 0.5rem;
+  --radius: 0.75rem;
+  /* Slightly more rounded for premium feel */
 }
 
 .dark {
-  /* Dark Theme (Midnight, Deep, Calm) */
+  /* Futuristic Neon Dark Theme */
   --background: 230 40% 7%;
   /* Midnight Indigo */
   --foreground: 216 33% 97%;
-  /* Soft White text */
+  /* Soft White */
 
-  --card: 230 40% 9%;
-  /* Slightly lighter than bg */
+  --card: 230 40% 8%;
+  /* Just off-black, translucent base */
   --card-foreground: 216 33% 97%;
 
-  --popover: 230 40% 7%;
+  --popover: 230 40% 8%;
   --popover-foreground: 216 33% 97%;
 
-  --primary: 174 58% 56%;
-  /* Cyan for primary in dark mode to pop? Or Violet? Let's use Violet as base but Cyan accents. The user said Primary Colors are Midnight & Violet. */
-  /* User said: Primary Buttons = gradient violet -> cyan. */
-  /* Let's stick to Violet as Primary color roughly, but lighter/brighter in dark mode? Or maybe Cyan? */
-  /* User: "Primary Colors: ... Deep Violet ... Accent Colors: Aurora Cyan" */
-  --primary: 282 39% 30%;
+  --primary: 260 80% 65%;
+  /* Neon Violet */
   --primary-foreground: 216 33% 97%;
 
-  --secondary: 230 30% 15%;
-  /* Darker secondary */
+  --secondary: 220 90% 65%;
+  /* Soft Neon Blue */
   --secondary-foreground: 216 33% 97%;
 
-  --muted: 230 30% 15%;
-  --muted-foreground: 220 5% 63%;
-  /* Muted Gray */
+  --muted: 230 25% 12%;
+  /* Dark gray-blue */
+  --muted-foreground: 220 15% 70%;
+  /* Readable gray */
 
-  --accent: 282 39% 30%;
-  --accent-foreground: 216 33% 97%;
+  --accent: 180 90% 60%;
+  /* Neon Cyan */
+  --accent-foreground: 230 40% 7%;
 
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 210 40% 98%;
 
-  --border: 230 30% 20%;
-  --input: 230 30% 20%;
-  --ring: 174 58% 56%;
-  /* Cyan ring */
+  --border: 230 30% 18%;
+  /* Subtle dark border */
+  --input: 230 30% 18%;
+  --ring: 260 80% 65%;
+  /* Violet ring focus */
 }
 
 @layer base {
@@ -104,8 +99,41 @@
     border-color: hsl(var(--border));
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
+    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Global Selection Color */
+  ::selection {
+    background-color: hsl(var(--violet-hsl) / 0.3);
+    color: hsl(var(--white-hsl));
+  }
+}
+
+@layer utilities {
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-lg;
+  }
+
+  .neon-border-violet {
+    @apply border border-violet-500/50;
+    box-shadow: 0 0 15px -3px rgba(139, 92, 246, 0.3);
+  }
+
+  .neon-border-cyan {
+    @apply border border-cyan-500/50;
+    box-shadow: 0 0 15px -3px rgba(79, 209, 197, 0.3);
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
   }
 }

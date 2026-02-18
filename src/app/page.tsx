@@ -146,135 +146,198 @@ export default function Home() {
             </section>
 
             {/* 3️⃣ WHAT IS BONUSLYF? */}
-            <section className="w-full py-24 md:py-32 bg-muted/10">
-                <div className="container px-6 mx-auto">
+            <section className="w-full py-24 md:py-32 relative overflow-hidden">
+                {/* Background Gradient */}
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-violet/5 to-background pointer-events-none" />
+
+                <div className="container px-6 mx-auto relative z-10">
                     <div className="grid md:grid-cols-2 gap-16 md:gap-24 items-center max-w-6xl mx-auto">
-                        <div className="space-y-8 text-left order-2 md:order-1">
-                            <h2 className="text-3xl md:text-5xl font-display font-medium text-foreground leading-tight">
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="space-y-8 text-left order-2 md:order-1"
+                        >
+                            <h2 className="text-4xl md:text-5xl font-display font-medium text-foreground leading-tight tracking-tight">
                                 More than a chatbot.<br />
-                                <span className="text-muted-foreground">A companion.</span>
+                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-violet-400 to-cyan-400">A true companion.</span>
                             </h2>
 
                             <div className="space-y-6">
-                                <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
-                                    BonusLYF is a personal AI platform built for people who want to feel heard, supported, and connected.
+                                <p className="text-lg md:text-xl text-muted-foreground/90 leading-relaxed font-light">
+                                    BonusLYF is a personal AI platform built for people who want to feel heard, supported, and connected. We prioritize emotional intelligence over raw data processing.
                                 </p>
 
                                 <ul className="space-y-4">
-                                    <li className="flex items-start gap-3">
-                                        <div className="mt-1 w-6 h-6 rounded-full bg-violet/10 flex items-center justify-center text-violet-500 shrink-0">
-                                            <Check className="w-3.5 h-3.5" />
+                                    <li className="flex items-start gap-4 p-4 rounded-xl bg-violet/5 border border-violet/10 hover:border-violet/20 transition-colors">
+                                        <div className="mt-1 w-8 h-8 rounded-full bg-violet/20 flex items-center justify-center text-violet-400 shrink-0 shadow-[0_0_10px_-2px_rgba(167,139,250,0.3)]">
+                                            <Check className="w-4 h-4" />
                                         </div>
-                                        <p className="text-muted-foreground">Designed with personality, memory, and emotional awareness.</p>
+                                        <div>
+                                            <h4 className="text-foreground font-medium mb-1">Emotionally Intelligent</h4>
+                                            <p className="text-sm text-muted-foreground">Designed with personality, memory, and deep emotional awareness.</p>
+                                        </div>
                                     </li>
-                                    <li className="flex items-start gap-3">
-                                        <div className="mt-1 w-6 h-6 rounded-full bg-cyan/10 flex items-center justify-center text-cyan-500 shrink-0">
-                                            <Check className="w-3.5 h-3.5" />
+                                    <li className="flex items-start gap-4 p-4 rounded-xl bg-cyan/5 border border-cyan/10 hover:border-cyan/20 transition-colors">
+                                        <div className="mt-1 w-8 h-8 rounded-full bg-cyan/20 flex items-center justify-center text-cyan-400 shrink-0 shadow-[0_0_10px_-2px_rgba(79,209,197,0.3)]">
+                                            <Check className="w-4 h-4" />
                                         </div>
-                                        <p className="text-muted-foreground">Conversations feel natural, personal, and meaningful.</p>
+                                        <div>
+                                            <h4 className="text-foreground font-medium mb-1">Natural Conversations</h4>
+                                            <p className="text-sm text-muted-foreground">Conversations feel natural, personal, and meaningful—not robotic.</p>
+                                        </div>
                                     </li>
                                 </ul>
                             </div>
-                        </div>
+                        </motion.div>
 
-                        <div className="relative h-[400px] w-full flex items-center justify-center order-1 md:order-2">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="relative h-[400px] w-full flex items-center justify-center order-1 md:order-2"
+                        >
                             {/* Visual Placeholder: Two Avatars & Waveform */}
-                            <div className="relative z-10 flex items-center justify-center gap-12">
+                            <div className="relative z-10 flex items-center justify-center gap-8 md:gap-12">
                                 <motion.div
-                                    animate={{ y: [0, -10, 0] }}
-                                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                    className="w-24 h-24 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 border-[6px] border-background shadow-2xl flex items-center justify-center relative z-10 overflow-hidden"
+                                    animate={{ y: [0, -15, 0] }}
+                                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                                    className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-violet-500 to-indigo-600 p-[2px] shadow-2xl shadow-violet-500/20 relative z-10"
                                 >
-                                    {/* Placeholder Avatar 1 */}
-                                    <Image src="/images/aiko.png" alt="Aiko" width={96} height={96} className="object-cover w-full h-full opacity-90" />
+                                    <div className="w-full h-full rounded-full overflow-hidden bg-black/50 backdrop-blur-sm">
+                                        <Image src="/images/aiko.png" alt="Aiko" width={128} height={128} className="object-cover w-full h-full opacity-90 hover:opacity-100 transition-opacity duration-500" />
+                                    </div>
                                 </motion.div>
 
-                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex justify-center">
-                                    <div className="w-48 h-1 bg-gradient-to-r from-violet-500/20 to-cyan-500/20 rounded-full blur-[1px]" />
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full flex justify-center flex-col items-center gap-2">
+                                    <div className="w-32 h-[2px] bg-gradient-to-r from-violet-500/50 via-white/50 to-cyan-500/50 blur-[1px]" />
                                     <motion.div
-                                        animate={{ opacity: [0.2, 1, 0.2] }}
-                                        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                        className="absolute w-2 h-2 rounded-full bg-foreground top-[-2px]"
+                                        animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.2, 0.8] }}
+                                        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                                        className="w-2 h-2 rounded-full bg-white shadow-[0_0_10px_2px_rgba(255,255,255,0.5)]"
                                     />
                                 </div>
 
                                 <motion.div
-                                    animate={{ y: [0, 10, 0] }}
-                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                                    className="w-24 h-24 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 border-[6px] border-background shadow-2xl flex items-center justify-center relative z-10 overflow-hidden"
+                                    animate={{ y: [0, 15, 0] }}
+                                    transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+                                    className="w-28 h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-cyan-400 to-teal-500 p-[2px] shadow-2xl shadow-cyan-500/20 relative z-10"
                                 >
-                                    {/* Placeholder Avatar 2 */}
-                                    <Image src="/images/sarah.png" alt="Sarah" width={96} height={96} className="object-cover w-full h-full opacity-90" />
+                                    <div className="w-full h-full rounded-full overflow-hidden bg-black/50 backdrop-blur-sm">
+                                        <Image src="/images/sarah.png" alt="Sarah" width={128} height={128} className="object-cover w-full h-full opacity-90 hover:opacity-100 transition-opacity duration-500" />
+                                    </div>
                                 </motion.div>
                             </div>
 
                             {/* Waveform BG */}
-                            <div className="absolute inset-0 bg-gradient-to-r from-violet/20 via-transparent to-cyan/20 w-full h-full skew-y-[-6deg] blur-[60px] opacity-60 rounded-full mix-blend-multiply dark:mix-blend-screen" />
-                        </div>
+                            <div className="absolute inset-0 bg-gradient-to-r from-violet/10 via-transparent to-cyan/10 w-full h-full skew-y-[-6deg] blur-[80px] opacity-40 rounded-full mix-blend-screen pointer-events-none" />
+                        </motion.div>
                     </div>
                 </div>
             </section>
 
             {/* 4️⃣ CHOOSE YOUR COMPANION */}
-            <section className="w-full py-24 md:py-32" id="companions">
-                <div className="container px-6 mx-auto">
+            <section className="w-full py-24 md:py-32 relative" id="companions">
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-violet-900/10 via-background to-background pointer-events-none" />
+                <div className="container px-6 mx-auto relative z-10">
                     <div className="text-center mb-16 max-w-2xl mx-auto">
-                        <h2 className="text-3xl md:text-4xl font-display font-medium mb-6">Choose a Companion That Feels Right</h2>
-                        <p className="text-muted-foreground text-lg">
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
+                            className="text-3xl md:text-5xl font-display font-medium mb-6 tracking-tight"
+                        >
+                            Choose a Companion That <br />
+                            <span className="bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">Feels Right For You</span>
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                            className="text-muted-foreground text-lg font-light"
+                        >
                             Find the personality that resonates with your emotional needs.
-                        </p>
+                        </motion.p>
                     </div>
 
                     <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
                         {/* Aiko */}
-                        <Card className="group h-full bg-background border-border hover:border-violet/40 hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer relative">
-                            <div className="absolute inset-0 bg-gradient-to-br from-violet/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            <CardHeader className="relative z-10 pb-2">
-                                <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-4 border-violet/10 group-hover:border-violet/30 group-hover:scale-110 transition-all duration-500 shadow-md">
-                                    <Image
-                                        src="/images/aiko.png"
-                                        alt="Aiko - Anime Spirit"
-                                        width={80}
-                                        height={80}
-                                        className="object-cover w-full h-full"
-                                    />
-                                </div>
-                                <CardTitle className="text-2xl font-display font-semibold group-hover:text-violet-600 transition-colors">Aiko - Anime Spirit</CardTitle>
-                                <CardDescription className="text-base font-medium">Energetic · Playful · Expressive</CardDescription>
-                            </CardHeader>
-                            <CardContent className="relative z-10">
-                                <p className="text-muted-foreground leading-relaxed">
-                                    Aiko brings light, motivation, and anime-inspired energy to your conversations. Perfect for fun chats, encouragement, and daily companionship.
-                                </p>
-                            </CardContent>
-                        </Card>
+                        <motion.div
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.2 }}
+                        >
+                            <Card className="group h-full bg-white/5 border-white/10 hover:border-violet/50 hover:bg-violet/5 hover:shadow-[0_0_40px_-10px_rgba(139,92,246,0.3)] transition-all duration-500 overflow-hidden cursor-pointer relative backdrop-blur-md">
+                                <CardHeader className="relative z-10 pb-2 flex flex-row items-center gap-6">
+                                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-violet/20 group-hover:border-violet/50 group-hover:scale-105 transition-all duration-500 shadow-md shrink-0">
+                                        <Image
+                                            src="/images/aiko.png"
+                                            alt="Aiko - Anime Spirit"
+                                            width={96}
+                                            height={96}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <Badge variant="outline" className="mb-2 bg-violet/10 text-violet-300 border-violet/20">Anime Spirit</Badge>
+                                        <CardTitle className="text-2xl font-display font-semibold group-hover:text-violet-300 transition-colors">Aiko</CardTitle>
+                                        <CardDescription className="text-base font-medium text-muted-foreground/80">Energetic · Playful</CardDescription>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="relative z-10 pt-4">
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Aiko brings light, motivation, and anime-inspired energy to your conversations. Perfect for <span className="text-foreground">fun chats, encouragement</span>, and brightening your day.
+                                    </p>
+                                    <div className="mt-6 flex items-center text-sm font-medium text-violet-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                        Start chatting with Aiko <ArrowRight className="w-4 h-4 ml-2" />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
 
                         {/* Sarah */}
-                        <Card className="group h-full bg-background border-border hover:border-cyan/40 hover:shadow-2xl transition-all duration-500 overflow-hidden cursor-pointer relative">
-                            <div className="absolute inset-0 bg-gradient-to-br from-cyan/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                            <CardHeader className="relative z-10 pb-2">
-                                <div className="w-20 h-20 rounded-full overflow-hidden mb-6 border-4 border-cyan/10 group-hover:border-cyan/30 group-hover:scale-110 transition-all duration-500 shadow-md">
-                                    <Image
-                                        src="/images/sarah.png"
-                                        alt="Sarah - Human Connection"
-                                        width={80}
-                                        height={80}
-                                        className="object-cover w-full h-full"
-                                    />
-                                </div>
-                                <CardTitle className="text-2xl font-display font-semibold group-hover:text-cyan-600 transition-colors">Sarah - Human Connection</CardTitle>
-                                <CardDescription className="text-base font-medium">Calm · Empathetic · Grounded</CardDescription>
-                            </CardHeader>
-                            <CardContent className="relative z-10">
-                                <p className="text-muted-foreground leading-relaxed">
-                                    Sarah is designed to feel like a real human presence - offering thoughtful responses, emotional support, and space to reflect.
-                                </p>
-                            </CardContent>
-                        </Card>
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.7, delay: 0.3 }}
+                        >
+                            <Card className="group h-full bg-white/5 border-white/10 hover:border-cyan/50 hover:bg-cyan/5 hover:shadow-[0_0_40px_-10px_rgba(79,209,197,0.3)] transition-all duration-500 overflow-hidden cursor-pointer relative backdrop-blur-md">
+                                <CardHeader className="relative z-10 pb-2 flex flex-row items-center gap-6">
+                                    <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-cyan/20 group-hover:border-cyan/50 group-hover:scale-105 transition-all duration-500 shadow-md shrink-0">
+                                        <Image
+                                            src="/images/sarah.png"
+                                            alt="Sarah - Human Connection"
+                                            width={96}
+                                            height={96}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <Badge variant="outline" className="mb-2 bg-cyan/10 text-cyan-300 border-cyan/20">Human Connection</Badge>
+                                        <CardTitle className="text-2xl font-display font-semibold group-hover:text-cyan-300 transition-colors">Sarah</CardTitle>
+                                        <CardDescription className="text-base font-medium text-muted-foreground/80">Calm · Empathetic</CardDescription>
+                                    </div>
+                                </CardHeader>
+                                <CardContent className="relative z-10 pt-4">
+                                    <p className="text-muted-foreground leading-relaxed">
+                                        Sarah is designed to feel like a real human presence - offering <span className="text-foreground">thoughtful responses, deep listening</span>, and a safe space to reflect.
+                                    </p>
+                                    <div className="mt-6 flex items-center text-sm font-medium text-cyan-400 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                        Start chatting with Sarah <ArrowRight className="w-4 h-4 ml-2" />
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
                     </div>
 
                     <div className="mt-16 text-center">
-                        <Button asChild size="lg" className="rounded-full bg-secondary text-secondary-foreground hover:bg-secondary/80 font-medium px-8 h-12 shadow-sm hover:shadow-md transition-all">
+                        <Button asChild size="lg" className="rounded-full bg-secondary/10 border border-secondary/20 text-secondary-foreground hover:bg-secondary/20 font-medium px-8 h-12 shadow-sm hover:shadow-md transition-all backdrop-blur-sm">
                             <Link href="/companions">View All Companions</Link>
                         </Button>
                     </div>
@@ -282,57 +345,160 @@ export default function Home() {
             </section>
 
             {/* 5️⃣ HOW IT WORKS */}
-            <section className="w-full py-24 bg-muted/20" id="how-it-works">
-                <div className="container px-6 mx-auto">
-                    <div className="text-center mb-20">
-                        <h2 className="text-3xl md:text-4xl font-display font-medium mb-4">How BonusLYF Works</h2>
-                        <p className="text-muted-foreground max-w-xl mx-auto">Simple, seamless, and designed to get you connected in moments.</p>
+            <section className="w-full py-24 md:py-32 bg-black/20 relative overflow-hidden" id="how-it-works">
+                {/* Decorative Background Elements */}
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-violet/5 to-transparent pointer-events-none" />
+                <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-violet-500/10 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[100px] pointer-events-none" />
+
+                <div className="container px-6 mx-auto relative z-10">
+                    <div className="text-center mb-24">
+                        <motion.span
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-block py-1 px-3 rounded-full bg-white/5 border border-white/10 text-xs font-medium tracking-widest text-violet-300 uppercase mb-4"
+                        >
+                            Seamless Onboarding
+                        </motion.span>
+                        <motion.h2
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
+                            className="text-3xl md:text-5xl font-display font-medium mb-4 text-white"
+                        >
+                            Your Journey to Connection
+                        </motion.h2>
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
+                            className="text-muted-foreground text-lg max-w-xl mx-auto font-light leading-relaxed"
+                        >
+                            Three simple steps to finding your digital soulmate. No complex setups, just pure connection.
+                        </motion.p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-12 max-w-5xl mx-auto relative cursor-default">
+                    <div className="relative max-w-5xl mx-auto">
                         {/* Connecting Line (Desktop) */}
-                        <div className="hidden md:block absolute top-[2.5rem] left-[16%] right-[16%] h-px bg-gradient-to-r from-transparent via-border to-transparent -z-10" />
+                        <div className="hidden md:block absolute top-[2.5rem] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-transparent via-violet-500/30 to-transparent -z-10">
+                            <motion.div
+                                animate={{ x: ["-100%", "100%"] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                                className="w-1/3 h-full bg-gradient-to-r from-transparent via-cyan-400 to-transparent blur-[2px]"
+                            />
+                        </div>
 
-                        {[
-                            { step: "01", title: "Create your account", desc: "Sign up in seconds. No complex forms.", icon: "✨" },
-                            { step: "02", title: "Choose companion", desc: "Select the personality that fits you.", icon: "🤝" },
-                            { step: "03", title: "Start talking", desc: "Chat via text or voice, anytime.", icon: "💬" }
-                        ].map((item, i) => (
-                            <div key={i} className="flex flex-col items-center text-center group">
-                                <div className="w-20 h-20 rounded-2xl bg-background border border-border shadow-sm flex items-center justify-center text-3xl mb-6 relative z-10 group-hover:scale-110 transition-transform duration-300">
-                                    {item.icon}
-                                    <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-xs font-bold border-4 border-muted">
-                                        {item.step}
+                        <div className="grid md:grid-cols-3 gap-12 md:gap-8">
+                            {[
+                                {
+                                    step: "01",
+                                    title: "Create Account",
+                                    desc: "Join in seconds. Private, secure, and ready for you.",
+                                    icon: <div className="w-full h-full bg-gradient-to-br from-violet-500/20 to-indigo-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">✨</div>
+                                },
+                                {
+                                    step: "02",
+                                    title: "Select Companion",
+                                    desc: "Browse personalities. Find the one that resonates.",
+                                    icon: <div className="w-full h-full bg-gradient-to-br from-cyan-500/20 to-teal-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">🤝</div>
+                                },
+                                {
+                                    step: "03",
+                                    title: "Start Talking",
+                                    desc: "Text or voice. Anytime, anywhere. Always there.",
+                                    icon: <div className="w-full h-full bg-gradient-to-br from-fuchsia-500/20 to-pink-500/20 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform">💬</div>
+                                }
+                            ].map((item, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.6, delay: i * 0.2 }}
+                                    className="relative flex flex-col items-center text-center group"
+                                >
+                                    {/* Icon Container with Glow */}
+                                    <div className="relative mb-8">
+                                        <div className="w-20 h-20 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl overflow-hidden shadow-[0_0_0_1px_rgba(255,255,255,0.05)] group-hover:border-white/20 group-hover:shadow-[0_0_20px_-5px_rgba(139,92,246,0.3)] transition-all duration-500 z-10 relative">
+                                            {item.icon}
+                                        </div>
+                                        {/* Step Number Badge */}
+                                        <div className="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-foreground text-background font-bold flex items-center justify-center text-xs shadow-lg z-20 border-4 border-black">
+                                            {item.step}
+                                        </div>
+                                        {/* Glow Effect behind icon */}
+                                        <div className={`absolute inset-0 bg-gradient-to-r ${i === 1 ? 'from-cyan-500/20 to-teal-500/20' : 'from-violet-500/20 to-indigo-500/20'} blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10 rounded-full`} />
                                     </div>
-                                </div>
-                                <h3 className="text-xl font-bold mb-3 text-foreground">{item.title}</h3>
-                                <p className="text-muted-foreground text-sm max-w-[200px] leading-relaxed">{item.desc}</p>
-                            </div>
-                        ))}
+
+                                    <h3 className="text-2xl font-display font-medium mb-3 text-foreground group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-white/70 transition-all">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-muted-foreground text-base leading-relaxed max-w-[240px] group-hover:text-muted-foreground/80 transition-colors">
+                                        {item.desc}
+                                    </p>
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
+
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 1, duration: 1 }}
+                        className="mt-20 flex justify-center"
+                    >
+                        <Button asChild variant="ghost" className="text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all">
+                            <Link href="/about" className="flex items-center gap-2 text-sm font-medium">
+                                Learn more about our technology <ArrowRight className="w-4 h-4" />
+                            </Link>
+                        </Button>
+                    </motion.div>
                 </div>
             </section>
 
             {/* 6️⃣ WHY BONUSLYF IS DIFFERENT */}
-            <section className="w-full py-24 md:py-32">
+            <section className="w-full py-24 md:py-32 relative">
                 <div className="container px-6 mx-auto">
-                    <h2 className="text-3xl md:text-4xl font-display font-medium text-center mb-16">Designed for Real Connection</h2>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center mb-16"
+                    >
+                        <h2 className="text-3xl md:text-5xl font-display font-medium mb-6">Designed for Real Connection</h2>
+                    </motion.div>
 
                     <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
                         {[
-                            { title: "Emotion-first AI", desc: "Built to listen, not interrupt.", bg: "hover:bg-violet/5 border-violet/20" },
-                            { title: "Voice-enabled", desc: "Conversations that feel alive.", bg: "hover:bg-cyan/5 border-cyan/20" },
-                            { title: "Private & secure", desc: "Your conversations stay yours.", bg: "hover:bg-emerald/5 border-emerald/20" },
-                            { title: "No gamification", desc: "Just presence. No stressful points.", bg: "hover:bg-amber/5 border-amber/20" },
+                            { title: "Emotion-first AI", desc: "Built to listen, not interrupt. It understands nuance.", bg: "hover:bg-violet/5 border-violet/20 hover:border-violet/40", icon: MessageCircle, color: "text-violet-400" },
+                            { title: "Voice-enabled", desc: "Conversations that feel alive with ultra-low latency.", bg: "hover:bg-cyan/5 border-cyan/20 hover:border-cyan/40", icon: Check, color: "text-cyan-400" }, // Using Check temporarily, ideally use Mic icon
+                            { title: "Private & secure", desc: "Your conversations stay yours. No ad targeting.", bg: "hover:bg-emerald/5 border-emerald/20 hover:border-emerald/40", icon: Shield, color: "text-emerald-400" },
+                            { title: "No gamification", desc: "Just presence. No stressful points or streaks.", bg: "hover:bg-amber/5 border-amber/20 hover:border-amber/40", icon: ArrowRight, color: "text-amber-400" }, // Using ArrowRight temporarily
                         ].map((item, i) => (
-                            <Card key={i} className={`bg-transparent border-border/50 shadow-none transition-all duration-300 ${item.bg} hover:border-opacity-50`}>
-                                <CardHeader>
-                                    <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
-                                </CardContent>
-                            </Card>
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.5, delay: i * 0.1 + 0.2 }}
+                            >
+                                <Card className={`h-full bg-white/5 backdrop-blur-sm border-white/5 shadow-none transition-all duration-300 ${item.bg}`}>
+                                    <CardHeader>
+                                        <div className={`w-10 h-10 rounded-lg bg-background/50 flex items-center justify-center mb-4 ${item.color} border border-white/10`}>
+                                            <item.icon className="w-5 h-5" />
+                                        </div>
+                                        <CardTitle className="text-lg font-semibold">{item.title}</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <p className="text-sm text-muted-foreground leading-relaxed">{item.desc}</p>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
                         ))}
                     </div>
                 </div>

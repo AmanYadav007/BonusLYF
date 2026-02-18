@@ -43,20 +43,20 @@ const config: Config = {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
-                chart: {
-                    '1': 'hsl(var(--chart-1))',
-                    '2': 'hsl(var(--chart-2))',
-                    '3': 'hsl(var(--chart-3))',
-                    '4': 'hsl(var(--chart-4))',
-                    '5': 'hsl(var(--chart-5))'
+
+                // Brand Specific Neon Tokens
+                midnight: 'hsl(var(--midnight-hsl))',
+                violet: {
+                    DEFAULT: 'hsl(var(--violet-hsl))',
+                    500: 'hsl(var(--violet-hsl))', // Mapping for existing utility classes
                 },
-                // Brand Colors
-                midnight: '#0B0E1A',
-                violet: '#3A1C71',
-                cyan: '#4FD1C5',
-                lavender: '#A78BFA',
-                softwhite: '#F5F7FA',
-                mutedgray: '#9CA3AF',
+                cyan: {
+                    DEFAULT: 'hsl(var(--cyan-hsl))',
+                    500: 'hsl(var(--cyan-hsl))',
+                },
+                blue: {
+                    soft: 'hsl(var(--blue-hsl))',
+                }
             },
             borderRadius: {
                 lg: 'var(--radius)',
@@ -67,6 +67,20 @@ const config: Config = {
                 sans: ["var(--font-inter)", "sans-serif"],
                 display: ["var(--font-space-grotesk)", "sans-serif"],
             },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'hero-glow': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+            },
+            animation: {
+                'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'glow-pulse': 'glow-pulse 4s ease-in-out infinite',
+            },
+            keyframes: {
+                'glow-pulse': {
+                    '0%, 100%': { opacity: '0.5' },
+                    '50%': { opacity: '1' },
+                }
+            }
         }
     },
     plugins: [require("tailwindcss-animate")],
