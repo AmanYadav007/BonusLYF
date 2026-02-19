@@ -29,7 +29,7 @@ export async function POST(request: Request) {
             },
             body: JSON.stringify({
                 text: safeText,
-                model_id: "eleven_monolingual_v1", // Low latency model
+                model_id: "eleven_multilingual_v2", // Supports 29 languages
                 voice_settings: config.settings,
             }),
         });
