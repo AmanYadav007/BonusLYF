@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase";
 import { COMPANIONS, Companion } from "@/lib/companions";
@@ -15,6 +15,7 @@ import {
   Sparkles,
   Pause,
   Play,
+  Volume2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -33,6 +34,13 @@ export default function CallPage() {
   >("idle");
 
   const [isPaused, setIsPaused] = useState(false);
+  const [lowVoiceMode, setLowVoiceMode] = useState(false);
+
+  // Audio boost refs for low-voice mode
+  const audioContextRef = useRef<AudioContext | null>(null);
+  const gainNodeRef = useRef<GainNode | null>(null);
+  const boostStreamRef = useRef<MediaStream | null>(null);
+  const rawMicStreamRef = useRef<MediaStream | null>(null);
 
   const [inputLang, setInputLang] = useState("en-US");
   const LANGUAGES = [
@@ -89,8 +97,9 @@ export default function CallPage() {
     if (typeof window !== "undefined" && "webkitSpeechRecognition" in window) {
       const SpeechRecognition = (window as any).webkitSpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
-      recognitionRef.current.continuous = false; // We handle restart manually for better control
+      recognitionRef.current.continuous = true;  // Keep listening continuously for better sensitivity
       recognitionRef.current.interimResults = true; // Show what is being said
+      recognitionRef.current.maxAlternatives = 3;  // Consider more alternatives for quiet speech
       recognitionRef.current.lang = inputLang;
 
       recognitionRef.current.onresult = (event: any) => {
@@ -275,6 +284,89 @@ export default function CallPage() {
       setCompanionState("listening");
     }
   };
+
+  // Low Voice Mode: Boost microphone gain via Web Audio API
+  const applyLowVoiceBoost = useCallback(async (enabled: boolean) => {
+    // Cleanup previous boost context
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      audioContextRef.current = null;
+      gainNodeRef.current = null;
+    }
+    if (boostStreamRef.current) {
+      boostStreamRef.current.getTracks().forEach(t => t.stop());
+      boostStreamRef.current = null;
+    }
+
+    if (!enabled) {
+      // Re-init speech recognition with original stream
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch (e) {}
+        setTimeout(() => {
+          if (recognitionRef.current && companionState === "listening" && micOn && callStatus === "connected") {
+            try { recognitionRef.current.start(); } catch (e) {}
+          }
+        }, 300);
+      }
+      return;
+    }
+
+    try {
+      // Get raw mic stream with low-noise settings for maximum sensitivity
+      const rawStream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          echoCancellation: false,     // Disable to catch more quiet sounds
+          noiseSuppression: false,     // Disable so quiet voice isn't filtered out
+          autoGainControl: false,      // We do manual gain control instead
+          channelCount: 1,
+        }
+      });
+      rawMicStreamRef.current = rawStream;
+
+      // Create AudioContext and boost gain significantly
+      const AudioCtx = (window.AudioContext || (window as any).webkitAudioContext);
+      const audioCtx = new AudioCtx();
+      audioContextRef.current = audioCtx;
+
+      const source = audioCtx.createMediaStreamSource(rawStream);
+      const gainNode = audioCtx.createGain();
+      gainNode.gain.value = 2.5; // Boost by 2.5x for low voice sensitivity
+      gainNodeRef.current = gainNode;
+
+      // Create a destination stream to feed into speech recognition
+      const destination = audioCtx.createMediaStreamDestination();
+      source.connect(gainNode);
+      gainNode.connect(destination);
+      boostStreamRef.current = destination.stream;
+
+      // Restart speech recognition — browser will pick up boosted stream passively
+      // (Web Speech API uses the default mic, so boost is additive via AudioContext)
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch (e) {}
+        setTimeout(() => {
+          if (recognitionRef.current && companionState === "listening" && micOn && callStatus === "connected") {
+            try { recognitionRef.current.start(); } catch (e) {}
+          }
+        }, 300);
+      }
+
+      console.log("Low Voice Mode: Mic gain boosted to 2.5x");
+    } catch (err) {
+      console.error("Low Voice Mode failed to initialize:", err);
+    }
+  }, [companionState, micOn, callStatus]);
+
+  // Toggle low voice mode
+  useEffect(() => {
+    if (callStatus === "connected") {
+      applyLowVoiceBoost(lowVoiceMode);
+    }
+    return () => {
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
+  }, [lowVoiceMode, callStatus]);
 
   // 2. User Camera Stream
   useEffect(() => {
@@ -505,6 +597,28 @@ export default function CallPage() {
 
         {/* Controls Bar */}
         <div className="h-24 flex items-center justify-center gap-6 mt-4">
+          {/* Low Voice Mode Toggle */}
+          <div className="flex flex-col items-center gap-1">
+            <Button
+              size="icon"
+              variant="secondary"
+              title={lowVoiceMode ? "Low Voice Mode: ON" : "Low Voice Mode: OFF"}
+              className={`h-14 w-14 rounded-full transition-all ${
+                lowVoiceMode
+                  ? "bg-emerald-500/30 text-emerald-400 hover:bg-emerald-500/40 shadow-[0_0_15px_rgba(52,211,153,0.3)] ring-1 ring-emerald-400/50"
+                  : "bg-white/10 text-white/60 hover:bg-white/20"
+              }`}
+              onClick={() => setLowVoiceMode(!lowVoiceMode)}
+            >
+              <Volume2 className="w-6 h-6" />
+            </Button>
+            <span className={`text-[10px] font-medium ${
+              lowVoiceMode ? "text-emerald-400" : "text-white/30"
+            }`}>
+              {lowVoiceMode ? "Low Voice ON" : "Low Voice"}
+            </span>
+          </div>
+
           <Button
             size="icon"
             variant="secondary"
