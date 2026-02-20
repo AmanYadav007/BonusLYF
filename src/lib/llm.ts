@@ -51,7 +51,7 @@ export async function generateResponse(message: string, type: 'anime' | 'human',
                     ...recentHistory,
                     { role: "user", content: message }
                 ],
-                model: "grok-4-latest", // We can switch to a cheaper model if needed later
+                model: "grok-3-latest", // Current valid xAI model
                 stream: false,
                 temperature: 0.8, // Slightly higher for more personality
                 max_tokens: 150 // Hard limit on output tokens to save money
