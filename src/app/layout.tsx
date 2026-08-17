@@ -18,6 +18,13 @@ const spaceGrotesk = Space_Grotesk({
 export const metadata: Metadata = {
   title: "BonusLYF",
   description: "Digital companions that feel present, personal, and emotionally intelligent.",
+  manifest: "/manifest.json",
+  themeColor: "#3A1C71",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: "BonusLYF",
+  },
 };
 
 export default function RootLayout({

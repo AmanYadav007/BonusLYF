@@ -2,51 +2,38 @@
 
 import styles from "@/styles/dashboard.module.css";
 import { useEffect, useState } from "react";
-import { createClient } from "@/lib/supabase";
+import { onAuthStateChanged, signOut, type User } from "firebase/auth";
+import { getFirebaseAuth, clearSessionCookie } from "@/lib/firebase";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { COMPANIONS, Companion } from "@/lib/companions";
 import { MessageSquare, Video } from "lucide-react";
 
 export default function DashboardPage() {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const router = useRouter();
-    const supabase = createClient();
 
     useEffect(() => {
-        const getUser = async () => {
-            const {
-                data: { user },
-            } = await supabase.auth.getUser();
+        const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
             if (!user) {
                 router.push("/login");
             } else {
                 setUser(user);
             }
-        };
-        getUser();
-    }, [supabase, router]);
+        });
+        return unsubscribe;
+    }, [router]);
 
     const handleSignOut = async () => {
-        await supabase.auth.signOut();
+        await signOut(getFirebaseAuth());
+        await clearSessionCookie();
         router.push("/login");
         router.refresh();
     };
 
     const selectCompanion = async (companionId: string, mode: 'chat' | 'call' = 'chat') => {
-        if (!user) return;
-
-        // Use updateUser to store preference in user_metadata locally first
-        // ideally we save to a table, but metadata is a good quick start
-        const { error } = await supabase.auth.updateUser({
-            data: { selected_companion: companionId },
-        });
-
-        if (!error) {
-            router.push(mode === 'call' ? `/dashboard/call` : `/chat`);
-        } else {
-            console.error("Failed to save preference", error);
-        }
+        localStorage.setItem("selected_companion", companionId);
+        router.push(mode === 'call' ? `/dashboard/call` : `/chat`);
     };
 
     if (!user) return null; // Or loading spinner
@@ -54,7 +41,9 @@ export default function DashboardPage() {
     return (
         <div className={styles.container}>
             <header className={styles.header}>
-                <div className={styles.title}>BonusLYF</div>
+                <Link href="/" className="flex items-center">
+                    <img src="/icons/bonuslyf-light.png" alt="BonusLYF Logo" className="h-8 w-auto object-contain" />
+                </Link>
                 <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
                     <span>{user.email}</span>
                     <Link href="/dashboard/settings" className={styles.logoutBtn}>

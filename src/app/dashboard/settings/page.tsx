@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase';
-import { User, Session } from '@supabase/supabase-js';
+import { onAuthStateChanged, updatePassword, type User } from 'firebase/auth';
+import { getFirebaseAuth } from '@/lib/firebase';
 import styles from '@/styles/dashboard.module.css';
 import Link from 'next/link';
 import { ArrowLeft } from 'lucide-react';
@@ -13,16 +13,12 @@ export default function SettingsPage() {
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
 
-    // Supabase client
-    const supabase = createClient();
-
     useEffect(() => {
-        const getUser = async () => {
-            const { data: { user } } = await supabase.auth.getUser();
+        const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
             setUser(user);
-        };
-        getUser();
-    }, [supabase]);
+        });
+        return unsubscribe;
+    }, []);
 
     const handleUpdatePassword = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -31,15 +27,12 @@ export default function SettingsPage() {
         setLoading(true);
         setMessage(null);
 
-        const { error } = await supabase.auth.updateUser({
-            password: newPassword
-        });
-
-        if (error) {
-            setMessage({ type: 'error', text: error.message });
-        } else {
+        try {
+            await updatePassword(user, newPassword);
             setMessage({ type: 'success', text: 'Password updated successfully!' });
             setNewPassword('');
+        } catch (err) {
+            setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to update password' });
         }
         setLoading(false);
     };

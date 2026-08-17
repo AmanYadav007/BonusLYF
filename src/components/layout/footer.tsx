@@ -7,11 +7,8 @@ export function Footer() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-12">
                     {/* Brand Column */}
                     <div className="col-span-2 md:col-span-1">
-                        <Link href="/" className="flex items-center gap-2 mb-4">
-                            <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-violet to-cyan flex items-center justify-center">
-                                <span className="text-white font-bold text-[10px]">B</span>
-                            </div>
-                            <span className="font-display font-bold text-lg tracking-tight">BonusLYF</span>
+                        <Link href="/" className="flex items-center mb-4">
+                            <img src="/icons/bonuslyf-light.png" alt="BonusLYF Logo" className="h-8 w-auto object-contain" />
                         </Link>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                             Digital companions designed for presence, connection, and emotional intelligence.

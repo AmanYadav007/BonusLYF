@@ -2,7 +2,8 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { COMPANIONS, Companion } from "@/lib/companions";
 import { motion, AnimatePresence, useMotionValue } from "framer-motion";
 import {
@@ -21,7 +22,7 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export default function CallPage() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [companion, setCompanion] = useState<Companion | null>(null);
   const [callStatus, setCallStatus] = useState<
     "connecting" | "connected" | "ended"
@@ -60,21 +61,13 @@ export default function CallPage() {
   const cameraStreamRef = useRef<MediaStream | null>(null);
   const handleUserMessageRef = useRef<((text: string) => void) | null>(null);
   const router = useRouter();
-  const supabase = createClient();
 
   // 1. Auth & Companion Selection + early permission requests
   useEffect(() => {
-    const init = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      if (!user) {
-        router.push("/login");
-        return;
-      }
+    const init = async (user: User) => {
       setUser(user);
 
-      const companionId = user.user_metadata?.selected_companion;
+      const companionId = localStorage.getItem("selected_companion");
       const found =
         COMPANIONS.find((c) => c.id === companionId) || COMPANIONS[0];
       setCompanion(found);
@@ -127,8 +120,16 @@ export default function CallPage() {
       setCallStatus("connected");
       setCompanionState("listening");
     };
-    init();
-  }, [supabase, router]);
+
+    const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
+      if (!user) {
+        router.push("/login");
+        return;
+      }
+      init(user);
+    });
+    return unsubscribe;
+  }, [router]);
 
   const [transcript, setTranscript] = useState("");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);

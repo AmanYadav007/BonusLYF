@@ -3,7 +3,8 @@
 import styles from "@/styles/auth.module.css";
 import { useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { getFirebaseAuth, setSessionCookie } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -12,24 +13,25 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
-    const supabase = createClient();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setError(null);
 
-        const { error } = await supabase.auth.signInWithPassword({
-            email,
-            password,
-        });
-
-        if (error) {
-            setError(error.message);
-            setLoading(false);
-        } else {
+        try {
+            const userCredential = await signInWithEmailAndPassword(
+                getFirebaseAuth(),
+                email,
+                password
+            );
+            const idToken = await userCredential.user.getIdToken();
+            await setSessionCookie(idToken);
             router.push("/dashboard");
             router.refresh();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Failed to sign in");
+            setLoading(false);
         }
     };
 
@@ -88,7 +90,7 @@ export default function LoginPage() {
                 </form>
 
                 <div className={styles.footer}>
-                    Don't have an account?{" "}
+                    Don&apos;t have an account?{" "}
                     <Link href="/register" className={styles.link}>
                         Create one
                     </Link>
