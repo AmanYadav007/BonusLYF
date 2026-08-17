@@ -2,31 +2,31 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { createClient } from '@/lib/supabase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { getFirebaseAuth } from '@/lib/firebase';
 import styles from '@/styles/auth.module.css';
 
 export default function ForgotPasswordPage() {
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
     const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null);
-    const supabase = createClient();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
         setMessage(null);
 
-        const { error } = await supabase.auth.resetPasswordForEmail(email, {
-            redirectTo: `${window.location.origin}/auth/callback?next=/dashboard/reset-password`,
-        });
-
-        if (error) {
-            setMessage({ type: 'error', text: error.message });
-        } else {
+        try {
+            await sendPasswordResetEmail(getFirebaseAuth(), email, {
+                url: `${window.location.origin}/reset-password`,
+                handleCodeInApp: true,
+            });
             setMessage({
                 type: 'success',
                 text: 'Check your email for the password reset link.'
             });
+        } catch (err) {
+            setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to send reset link' });
         }
         setLoading(false);
     };

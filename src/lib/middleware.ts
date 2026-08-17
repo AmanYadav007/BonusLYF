@@ -1,41 +1,23 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { getAuth } from "firebase-admin/auth";
+import { getFirebaseAdminApp } from "@/lib/firebase-admin";
+
+const SESSION_COOKIE_NAME = "session";
 
 export async function updateSession(request: NextRequest) {
-    let response = NextResponse.next({
-        request: {
-            headers: request.headers,
-        },
-    });
+    let user = null;
 
-    const supabase = createServerClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-        {
-            cookies: {
-                getAll() {
-                    return request.cookies.getAll();
-                },
-                setAll(cookiesToSet) {
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        request.cookies.set(name, value)
-                    );
-                    response = NextResponse.next({
-                        request: {
-                            headers: request.headers,
-                        },
-                    });
-                    cookiesToSet.forEach(({ name, value, options }) =>
-                        response.cookies.set(name, value, options)
-                    );
-                },
-            },
+    const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value;
+    if (sessionCookie) {
+        try {
+            user = await getAuth(getFirebaseAdminApp()).verifySessionCookie(
+                sessionCookie,
+                true
+            );
+        } catch {
+            // Invalid or expired session cookie
         }
-    );
-
-    const {
-        data: { user },
-    } = await supabase.auth.getUser();
+    }
 
     // Protected routes logic
     if (request.nextUrl.pathname.startsWith("/dashboard") && !user) {
@@ -51,5 +33,5 @@ export async function updateSession(request: NextRequest) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
     }
 
-    return response;
+    return NextResponse.next({ request });
 }

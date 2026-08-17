@@ -3,7 +3,8 @@
 import styles from "@/styles/auth.module.css";
 import { useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { getFirebaseAuth, setSessionCookie } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
@@ -13,7 +14,6 @@ export default function RegisterPage() {
     const [error, setError] = useState<string | null>(null);
     const [message, setMessage] = useState<string | null>(null);
     const router = useRouter();
-    const supabase = createClient();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -21,26 +21,19 @@ export default function RegisterPage() {
         setError(null);
         setMessage(null);
 
-        const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: {
-                emailRedirectTo: `${location.origin}/auth/callback`,
-            },
-        });
-
-        if (error) {
-            setError(error.message);
+        try {
+            const userCredential = await createUserWithEmailAndPassword(
+                getFirebaseAuth(),
+                email,
+                password
+            );
+            const idToken = await userCredential.user.getIdToken();
+            await setSessionCookie(idToken);
+            router.push("/dashboard");
+            router.refresh();
+        } catch (err) {
+            setError(err instanceof Error ? err.message : "Failed to create account");
             setLoading(false);
-        } else {
-            if (data.session) {
-                router.push("/dashboard");
-                router.refresh();
-            } else {
-                // Email confirmation required or some other state
-                setMessage("Account created! Please check your email to confirm your subscription (if enabled) or sign in.");
-                setLoading(false);
-            }
         }
     };
 

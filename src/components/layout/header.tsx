@@ -27,18 +27,22 @@ export function Header() {
             <div className="container mx-auto px-6 lg:px-12">
                 <div className="flex items-center justify-between h-16 md:h-20">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-3 group">
-                        {/* Logo Icon Placeholder - Orb/Spark */}
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-violet to-cyan flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform duration-300">
-                            <span className="text-white font-bold text-sm">B</span>
-                        </div>
-                        <span className="font-display font-bold text-xl tracking-wide text-foreground group-hover:text-primary transition-colors">
-                            BonusLYF
-                        </span>
+                    <Link href="/" className="flex items-center group">
+                        <img 
+                            src="/icons/bonuslyf-light.png" 
+                            alt="BonusLYF Logo" 
+                            className="h-8 md:h-10 w-auto object-contain group-hover:scale-105 transition-transform duration-300"
+                        />
                     </Link>
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center gap-10">
+                        <Link
+                            href="/products"
+                            className="text-sm font-medium text-muted-foreground/80 hover:text-foreground transition-colors"
+                        >
+                            Products
+                        </Link>
                         <Link
                             href="/about"
                             className="text-sm font-medium text-muted-foreground/80 hover:text-foreground transition-colors"
@@ -94,10 +98,11 @@ export function Header() {
                             <SheetContent side="right" className="w-full sm:w-[350px] p-0 border-l border-border/50 bg-background/95 backdrop-blur-xl">
                                 <div className="flex flex-col h-full p-8 space-y-8">
                                     <div className="flex items-center justify-between">
-                                        <span className="font-display font-bold text-2xl tracking-wide">BonusLYF</span>
+                                        <img src="/icons/bonuslyf-light.png" alt="BonusLYF Logo" className="h-8 w-auto object-contain" />
                                         {/* Sheet close is handled by the component */}
                                     </div>
                                     <nav className="flex flex-col gap-6">
+                                        <Link href="/products" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Products</Link>
                                         <Link href="/about" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">About</Link>
                                         <Link href="/#pricing" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Pricing</Link>
                                         <Link href="/company" className="text-2xl font-medium text-foreground/80 hover:text-foreground transition-colors">Company</Link>

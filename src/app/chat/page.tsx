@@ -2,13 +2,15 @@
 
 import styles from "@/styles/chat.module.css";
 import { useEffect, useState, useRef } from "react";
-import { createClient } from "@/lib/supabase";
+import { ChatLoadingState } from "@/components/ChatSkeleton";
+import { onAuthStateChanged, type User } from "firebase/auth";
+import { getFirebaseAuth } from "@/lib/firebase";
 import { useRouter } from "next/navigation";
 import { COMPANIONS, Companion } from "@/lib/companions";
 import Link from "next/link";
 
 export default function ChatPage() {
-    const [user, setUser] = useState<any>(null);
+    const [user, setUser] = useState<User | null>(null);
     const [companion, setCompanion] = useState<Companion | null>(null);
     const [messages, setMessages] = useState<any[]>([]);
     const [input, setInput] = useState("");
@@ -18,7 +20,6 @@ export default function ChatPage() {
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const router = useRouter();
-    const supabase = createClient();
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -29,17 +30,14 @@ export default function ChatPage() {
     }, [messages]);
 
     useEffect(() => {
-        const init = async () => {
-            const {
-                data: { user },
-            } = await supabase.auth.getUser();
+        const unsubscribe = onAuthStateChanged(getFirebaseAuth(), (user) => {
             if (!user) {
                 router.push("/login");
                 return;
             }
             setUser(user);
 
-            const companionId = user.user_metadata?.selected_companion;
+            const companionId = localStorage.getItem("selected_companion");
 
             if (!companionId) {
                 router.push("/dashboard");
@@ -61,9 +59,9 @@ export default function ChatPage() {
                 return;
             }
             setLoading(false);
-        };
-        init();
-    }, [supabase, router]);
+        });
+        return unsubscribe;
+    }, [router]);
 
     const handleSend = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -169,14 +167,18 @@ export default function ChatPage() {
                 className={styles.container}
                 style={{ alignItems: "center", justifyContent: "center" }}
             >
-                Loading experience...
+                <ChatLoadingState />
             </div>
         );
 
     return (
         <div className={styles.container}>
             <aside className={styles.sidebar}>
-                <div className={styles.sidebarHeader}>BonusLYF</div>
+                <div className={styles.sidebarHeader}>
+                    <Link href="/">
+                        <img src="/icons/bonuslyf-light.png" alt="BonusLYF Logo" className="h-8 w-auto object-contain" />
+                    </Link>
+                </div>
                 <Link href="/dashboard" className={styles.backLink}>
                     ← Change Companion
                 </Link>
