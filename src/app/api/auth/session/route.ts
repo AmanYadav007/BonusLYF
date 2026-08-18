@@ -12,7 +12,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: "Missing idToken" }, { status: 401 });
         }
 
-        const sessionCookie = await getAuth(getFirebaseAdminApp()).createSessionCookie(
+        const app = getFirebaseAdminApp();
+        if (!app) {
+            return NextResponse.json({ error: "Firebase not configured" }, { status: 500 });
+        }
+
+        const sessionCookie = await getAuth(app).createSessionCookie(
             idToken,
             { expiresIn: SESSION_DURATION }
         );

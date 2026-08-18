@@ -10,10 +10,10 @@ export async function updateSession(request: NextRequest) {
     const sessionCookie = request.cookies.get(SESSION_COOKIE_NAME)?.value;
     if (sessionCookie) {
         try {
-            user = await getAuth(getFirebaseAdminApp()).verifySessionCookie(
-                sessionCookie,
-                true
-            );
+            const app = getFirebaseAdminApp();
+            if (app) {
+                user = await getAuth(app).verifySessionCookie(sessionCookie, true);
+            }
         } catch {
             // Invalid or expired session cookie
         }
@@ -34,4 +34,8 @@ export async function updateSession(request: NextRequest) {
     }
 
     return NextResponse.next({ request });
+}
+
+export function isFirebaseConfigured(): boolean {
+    return !!process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
 }
