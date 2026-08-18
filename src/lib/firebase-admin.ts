@@ -5,14 +5,21 @@ import { initializeApp, getApps, getApp, cert, type App } from "firebase-admin/a
 function getServiceAccount() {
     const json = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
     if (!json) {
-        throw new Error("FIREBASE_SERVICE_ACCOUNT_JSON environment variable is not set");
+        return null;
     }
-    return JSON.parse(json);
+    try {
+        return JSON.parse(json);
+    } catch {
+        return null;
+    }
 }
 
-export function getFirebaseAdminApp(): App {
+export function getFirebaseAdminApp(): App | null {
+    const serviceAccount = getServiceAccount();
+    if (!serviceAccount) {
+        return null;
+    }
     if (getApps().length === 0) {
-        const serviceAccount = getServiceAccount();
         return initializeApp({
             credential: cert(
                 serviceAccount as {

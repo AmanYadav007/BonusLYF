@@ -46,12 +46,17 @@ export default function CompanionPreviewChat() {
   const [isTyping, setIsTyping] = useState(false);
   const [msgCount, setMsgCount] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const isInitialMount = useRef(true);
 
   const companion = COMPANIONS[active];
   const remaining = MAX_FREE_MESSAGES - msgCount;
   const limitReached = msgCount >= MAX_FREE_MESSAGES;
 
   useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+      return;
+    }
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
