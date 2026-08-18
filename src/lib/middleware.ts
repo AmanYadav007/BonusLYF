@@ -37,5 +37,12 @@ export async function updateSession(request: NextRequest) {
 }
 
 export function isFirebaseConfigured(): boolean {
-    return !!process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+    const json = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
+    if (!json) return false;
+    try {
+        JSON.parse(json);
+        return true;
+    } catch {
+        return false;
+    }
 }
